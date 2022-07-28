@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, Keyboard } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
@@ -10,6 +10,13 @@ export default function App() {
   // useEffect(() => {
 
   // }, []);
+
+  async function addNewTask() {
+    setStasks([...tasks, newTask]);
+
+    setNewStask('');
+    Keyboard.dismiss();
+  }
 
   return (
     <>
@@ -25,7 +32,7 @@ export default function App() {
               <View style={styles.ContainerView}>
                 <Text style={styles.Text}>{item}</Text>
                 <TouchableOpacity>
-                  <MaterialCommunityIcons name="delete-forever" size={24} color="black" />
+                  <MaterialCommunityIcons name='delete-forever' size={24} color='black' />
                 </TouchableOpacity>
               </View>
             )}
@@ -39,9 +46,12 @@ export default function App() {
             autoCorrect={true} // sugere correção de palavras
             placeholder='Adicione uma nova tarefa'
             maxLength={20}
+            onChangeText={text => setNewStask(text)}
+            value={newTask}
           />
           <TouchableOpacity
             style={styles.Button}
+            onPress={() => addNewTask()}
           >
             <Ionicons name="add" size={24} color='#fff' />
           </TouchableOpacity>
