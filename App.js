@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, Keyboard } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, Keyboard, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
@@ -12,6 +12,15 @@ export default function App() {
   // }, []);
 
   async function addNewTask() {
+    if(newTask == '') return;
+    
+    const taskAlreadyExists = tasks.find(task => task === newTask);
+
+    if (taskAlreadyExists) {
+      Alert.alert('Atenção!', 'Uma tarefa com esse nome já existe!');
+      return;
+    }
+
     setStasks([...tasks, newTask]);
 
     setNewStask('');
