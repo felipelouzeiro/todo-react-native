@@ -28,12 +28,28 @@ export default function App() {
   }
 
   async function removeTask(taskToRemove) {
-    setTasks(tasks.filter(task => task !== taskToRemove));
+    Alert.alert(
+      'Apagar Tarefa',
+      'Deseja mesmo deletar essa tarefa?',
+      [
+        {
+          text: 'Cancelar',
+          onPress: () => {
+            return;
+          },
+          style: 'cancel',
+        },
+        {
+          text: 'Ok',
+          onPress: () => {
+            setTasks(tasks.filter(task => task !== taskToRemove));
+          }
+        },
+      ],
+      { cancelable: false },
+    );
 
-    // if (taskAlreadyExists) {
-    //   Alert.alert('Atenção!', 'Uma tarefa com esse nome já existe!');
-    //   return;
-    // }
+
   }
 
   return (
