@@ -1,16 +1,50 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useEffect, useState } from 'react';
 
 export default function App() {
+  const [tasks, setStasks] = useState(['task1', '1task2', 'task3']);
+  const [newTask, setNewStask] = useState('');
+
+  // useEffect(() => {
+
+  // }, []);
+
   return (
     <>
       <View style={styles.container}>
         <View style={styles.Body}>
           <Text>Hello Word!</Text>
+          <FlatList
+            style={styles.FlatList}
+            data={tasks}
+            keyExtractor={item => item.toString()}
+            showsVerticalScrollIndicator={false}
+            renderItem={({item}) => (
+              <View style={styles.ContainerView}>
+                <Text style={styles.Text}>{item}</Text>
+                <TouchableOpacity>
+                  <MaterialCommunityIcons name="delete-forever" size={24} color="black" />
+                </TouchableOpacity>
+              </View>
+            )}
+          />
         </View>
 
         <View style={styles.Form}>
-          <TextInput style={styles.Input}/>
-          <TouchableOpacity style={styles.Button}/>
+          <TextInput
+            style={styles.Input}
+            placeholderTextColor='#999'
+            autoCorrect={true} // sugere correção de palavras
+            placeholder='Adicione uma nova tarefa'
+            maxLength={20}
+          />
+          <TouchableOpacity
+            style={styles.Button}
+          >
+            <Ionicons name="add" size={24} color='#fff' />
+          </TouchableOpacity>
         </View>
       </View>
       
@@ -42,20 +76,42 @@ const styles = StyleSheet.create({
   Input: {
     flex: 1,
     height: 40,
-    backgroundColor: "#eee",
+    backgroundColor:'#eee',
     borderRadius: 4,
     paddingHorizontal: 18,
     paddingVertical: 5,
     borderWidth: 1,
-    borderColor: "#eee",
+    borderColor: '#eee',
   },
   Button: {
     height: 40,
     width: 40,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: "#1c6cce",
+    backgroundColor: '#1c6cce',
     borderRadius: 4,
     marginLeft: 10,
   },
+  FlatList: {
+    flex: 1,
+    marginTop: 5,
+  },
+  ContainerView: {
+    marginBottom: 15,
+    padding: 15,
+    borderRadius: 4,
+    backgroundColor: "#eee",
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderColor: "#eee",
+  },
+  Text: {
+    fontSize: 14,
+    color: '#333',
+    fontWeight: 'bold',
+    marginTop: 4,
+    textAlign: 'center',
+  }
 });
