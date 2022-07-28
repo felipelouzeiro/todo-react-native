@@ -4,7 +4,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 
 export default function App() {
-  const [tasks, setStasks] = useState(['task1', '1task2', 'task3']);
+  const [tasks, setTasks] = useState(['task1', '1task2', 'task3']);
   const [newTask, setNewStask] = useState('');
 
   // useEffect(() => {
@@ -21,10 +21,19 @@ export default function App() {
       return;
     }
 
-    setStasks([...tasks, newTask]);
+    setTasks([...tasks, newTask]);
 
     setNewStask('');
     Keyboard.dismiss();
+  }
+
+  async function removeTask(taskToRemove) {
+    setTasks(tasks.filter(task => task !== taskToRemove));
+
+    // if (taskAlreadyExists) {
+    //   Alert.alert('Atenção!', 'Uma tarefa com esse nome já existe!');
+    //   return;
+    // }
   }
 
   return (
@@ -40,7 +49,7 @@ export default function App() {
             renderItem={({item}) => (
               <View style={styles.ContainerView}>
                 <Text style={styles.Text}>{item}</Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => removeTask(item)}>
                   <MaterialCommunityIcons name='delete-forever' size={24} color='black' />
                 </TouchableOpacity>
               </View>
