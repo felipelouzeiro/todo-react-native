@@ -1,15 +1,31 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, Keyboard, Alert } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, Keyboard, Alert, AsyncStorage } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 
 export default function App() {
-  const [tasks, setTasks] = useState(['task1', '1task2', 'task3']);
+  const [tasks, setTasks] = useState([]);
   const [newTask, setNewStask] = useState('');
 
-  // useEffect(() => {
+  useEffect(() => {
+    async function loadTasks() {
+      const savedTasks = await AsyncStorage.getItem('tasks');
 
-  // }, []);
+      if (savedTasks) {
+        setTasks(JSON.parse(savedTasks));
+      }
+    }
+
+    loadTasks();
+  }, []);
+
+  useEffect(() => {
+    async function saveTasks() {
+      AsyncStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    saveTasks();
+  }, [tasks]);
 
   async function addNewTask() {
     if(newTask == '') return;
